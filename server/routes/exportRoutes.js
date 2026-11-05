@@ -20,34 +20,25 @@ function formatPlainText(d) {
     lines.push(p.summary.trim());
   }
 
-  // Skills
-  if (Array.isArray(d.skills) && d.skills.length > 0) {
-    lines.push('\nTECHNICAL SKILLS');
-    lines.push('================');
-    lines.push(d.skills.join(', '));
-  }
-
-  // Experience
-  if (Array.isArray(d.experience) && d.experience.some(e => e.role || e.company)) {
-    lines.push('\nPROFESSIONAL EXPERIENCE');
-    lines.push('=======================');
-    d.experience.filter(e => e.role || e.company).forEach(e => {
-      lines.push(`${e.role || 'Role'} | ${e.company || 'Company'} (${e.start || ''} - ${e.end || 'Present'})`);
-      if (e.details) {
-        e.details.split('\n').filter(Boolean).forEach(l => {
-          lines.push(`  • ${l.replace(/^[•\-\*]\s*/, '')}`);
-        });
-      }
+  // Education
+  if (Array.isArray(d.education) && d.education.some(ed => ed.degree || ed.institution)) {
+    lines.push('\nEDUCATION');
+    lines.push('------------------------------------------------------------');
+    d.education.filter(ed => ed.degree || ed.institution).forEach(ed => {
+      lines.push(`${ed.degree || 'Degree'} | ${ed.start || ''}${ed.end ? ' – ' + ed.end : ''}`);
+      lines.push(`${ed.institution || ''}${ed.university ? ', ' + ed.university : ''}${ed.location ? ', ' + ed.location : ''}`);
+      if (ed.grade) lines.push(`  Grade / CGPA: ${ed.grade}`);
       lines.push('');
     });
   }
 
   // Projects
   if (Array.isArray(d.projects) && d.projects.some(pr => pr.name)) {
-    lines.push('\nKEY PROJECTS');
-    lines.push('============');
+    lines.push(`\n${d.projectsTitle || 'RELEVANT PROJECTS'}`);
+    lines.push('------------------------------------------------------------');
     d.projects.filter(pr => pr.name).forEach(pr => {
-      lines.push(`${pr.name}${pr.tech ? ' [' + pr.tech + ']' : ''}`);
+      lines.push(`${pr.name}${pr.date ? '  (' + pr.date + ')' : ''}`);
+      if (pr.subtitle) lines.push(`  ${pr.subtitle}`);
       if (pr.link) lines.push(`  Link: ${pr.link}`);
       if (pr.description) {
         pr.description.split('\n').filter(Boolean).forEach(l => {
@@ -58,32 +49,41 @@ function formatPlainText(d) {
     });
   }
 
-  // Education
-  if (Array.isArray(d.education) && d.education.some(ed => ed.degree || ed.institution)) {
-    lines.push('\nEDUCATION');
-    lines.push('=========');
-    d.education.filter(ed => ed.degree || ed.institution).forEach(ed => {
-      lines.push(`${ed.degree || 'Degree'} - ${ed.institution || 'Institution'} (${ed.start || ''} - ${ed.end || ''})`);
-      if (ed.grade) lines.push(`  Grade / CGPA: ${ed.grade}`);
-      if (ed.university) lines.push(`  Affiliation: ${ed.university}`);
+  // Technical Skills (Table / Categories)
+  if (Array.isArray(d.skillCategories) && d.skillCategories.length > 0) {
+    lines.push('\nTECHNICAL SKILLS');
+    lines.push('------------------------------------------------------------');
+    d.skillCategories.filter(sc => sc.category || sc.skills).forEach(sc => {
+      lines.push(`${sc.category.padEnd(20, ' ')} : ${sc.skills}`);
+    });
+  } else if (Array.isArray(d.skills) && d.skills.length > 0) {
+    lines.push('\nTECHNICAL SKILLS');
+    lines.push('------------------------------------------------------------');
+    lines.push(d.skills.join(', '));
+  }
+
+  // Experience
+  if (Array.isArray(d.experience) && d.experience.some(e => e.role || e.company)) {
+    lines.push('\nEXPERIENCE');
+    lines.push('------------------------------------------------------------');
+    d.experience.filter(e => e.role || e.company).forEach(e => {
+      lines.push(`${e.role || 'Role'} — ${e.company || 'Company'} (${e.start || ''} – ${e.end || 'Present'})`);
+      if (e.subtitle) lines.push(`  ${e.subtitle}`);
+      if (e.details) {
+        e.details.split('\n').filter(Boolean).forEach(l => {
+          lines.push(`  • ${l.replace(/^[•\-\*]\s*/, '')}`);
+        });
+      }
+      lines.push('');
     });
   }
 
-  // Certifications
-  if (Array.isArray(d.certifications) && d.certifications.some(c => c.name)) {
-    lines.push('\nCERTIFICATIONS');
-    lines.push('==============');
-    d.certifications.filter(c => c.name).forEach(c => {
-      lines.push(`• ${c.name}${c.issuer ? ' — ' + c.issuer : ''}${c.date ? ' (' + c.date + ')' : ''}`);
-    });
-  }
-
-  // Achievements
+  // Publications & Achievements
   if (Array.isArray(d.achievements) && d.achievements.some(Boolean)) {
-    lines.push('\nACHIEVEMENTS');
-    lines.push('============');
+    lines.push(`\n${d.achievementsTitle || 'PUBLICATIONS & ACHIEVEMENTS'}`);
+    lines.push('------------------------------------------------------------');
     d.achievements.filter(Boolean).forEach(a => {
-      lines.push(`• ${a}`);
+      lines.push(`• ${a.replace(/^[•\-\*]\s*/, '')}`);
     });
   }
 

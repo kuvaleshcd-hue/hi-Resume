@@ -1,5 +1,125 @@
 export const sampleTemplates = [
   {
+    id: 'tpl-kuvalesh-ai',
+    title: 'Kuvalesh C D — Speech, NLP & Full-Stack AI Developer',
+    type: 'ATS-Friendly',
+    personal: {
+      name: 'KUVALESH C D',
+      title: 'Full Stack AI Developer',
+      email: 'kuvaleshcd@gmail.com',
+      phone: '+91 73383 74900',
+      location: 'Bengaluru, Karnataka',
+      linkedin: '',
+      github: 'kuvaleshcd-hue',
+      portfolio: 'https://kuvalesh.netlify.app',
+      summary: 'Information Science graduate with hands-on experience in speech, NLP, and full-stack AI development. Seeking an opportunity to apply my technical skills, learn from experienced teams, and contribute to impactful AI projects, especially ones that make technology accessible in Indian languages.'
+    },
+    education: [
+      {
+        degree: 'B.E. Information Science',
+        institution: 'Ghousia College of Engineering, VTU, Bengaluru',
+        university: '',
+        location: '',
+        start: '2023',
+        end: '2027',
+        grade: ''
+      }
+    ],
+    projectsTitle: 'RELEVANT PROJECTS — SPEECH, NLP & AI',
+    projects: [
+      {
+        name: 'Sarvam VideoDubber | AI Multi-language Video Dubbing Pipeline',
+        date: '2025 – 2026',
+        subtitle: "Sarvam AI BuildIn' Hours Hackathon — Shortlisted for offline round, Bengaluru",
+        link: 'https://github.com/kuvaleshcd-hue/Sarvam-VideoDubber',
+        description: "• End-to-end dubbing pipeline: Saaras v3 (STT) → Sarvam-Translate → Bulbul v3 (TTS) for 16 Indian languages\n• Built advanced audio processing with FFmpeg atempo sync, subtitle overlay, SRT export, and batch dubbing\n• Deployed on Streamlit Cloud; preparing IEEE INDICON 2026 paper on low-resource language dubbing evaluation • GitHub"
+      },
+      {
+        name: 'VAANI | Kannada Voice Assistant',
+        date: '2025',
+        subtitle: '',
+        link: '',
+        description: "• Built an end-to-end Kannada voice assistant using LLaMA 3 via Groq, with STT and TTS integration\n• Focused on natural conversational flow in Kannada for rural and non-English-speaking users"
+      },
+      {
+        name: 'Hanu Agri | AI Agricultural Demand Prediction System',
+        date: '2025',
+        subtitle: '',
+        link: 'https://github.com/kuvaleshcd-hue/Hanu-Agri',
+        description: "• 7 ML models: crop recommendation, disease detection (image), price forecasting, fertilizer guidance, demand-supply analysis, profitability calculator, and weather advisory — exposed via Flask REST APIs\n• scikit-learn (.pkl models) + vanilla JS + Chart.js + Leaflet maps; deployed on Netlify • Live Demo • GitHub"
+      },
+      {
+        name: 'Vision Films | Photography & Videography Studio Website',
+        date: '2025',
+        subtitle: '',
+        link: 'https://github.com/kuvaleshcd-hue/Vision-Films',
+        description: "• Cinematic portfolio site for Vision Films Mysore — smooth scroll, CSS animations, gallery, responsive layout\n• Live Demo • GitHub • Demonstrates UI/UX and frontend design proficiency"
+      }
+    ],
+    skillCategories: [
+      {
+        category: 'Speech & Audio',
+        skills: 'STT/TTS pipelines, FFmpeg audio processing, diarization concepts, Sarvam AI suite (Saaras, Bulbul, Translate), pyaudio, pydub'
+      },
+      {
+        category: 'Languages',
+        skills: 'Python, JavaScript, C, SQL, Bash • Kannada (native), English (fluent), Hindi'
+      },
+      {
+        category: 'Backend / APIs',
+        skills: 'FastAPI, Flask, Node.js, REST APIs, Google Calendar API, Gmail API, OAuth 2.0, WebSockets'
+      },
+      {
+        category: 'Frontend',
+        skills: 'React, Streamlit, HTML/CSS, Chrome Extension (Manifest V3)'
+      },
+      {
+        category: 'Tools & Infra',
+        skills: 'Git, GitHub, Docker (basic), VS Code, Jupyter, Streamlit Cloud, Antigravity'
+      }
+    ],
+    skills: [
+      'Speech & Audio (STT/TTS, FFmpeg, Sarvam AI)',
+      'Python', 'FastAPI', 'Flask', 'Node.js', 'React', 'Streamlit',
+      'Docker', 'Git', 'GitHub', 'SQL', 'LLaMA 3', 'Groq'
+    ],
+    experience: [
+      {
+        role: 'Full Stack AI Developer Intern',
+        company: 'OmniIDE, Bengaluru',
+        start: '2026',
+        end: 'Present',
+        subtitle: 'Early-stage startup building open-source local-native AI infrastructure',
+        details: "• Contributing to AI agent orchestration and developer tooling for local LLM deployment\n• Working directly with the founder on system architecture and full-stack implementation"
+      },
+      {
+        role: 'Cybersecurity Intern',
+        company: 'Elevate Labs',
+        start: 'May',
+        end: 'Jul 2026',
+        subtitle: 'Best Performer Award',
+        details: "• Built HoneyPot Server (Flask + paramiko SSH + Fail2ban), SOC dashboard, and Log Analyzer"
+      },
+      {
+        role: 'Cybersecurity Intern',
+        company: 'CodeAlpha',
+        start: 'Jul',
+        end: '2026',
+        subtitle: '',
+        details: "• Built Network Packet Sniffer (Scapy), PhishGuard URL scanner, and NIDS web app (FastAPI + WebSocket)"
+      }
+    ],
+    certifications: [],
+    achievementsTitle: 'PUBLICATIONS & ACHIEVEMENTS',
+    achievements: [
+      "IEEE INDICON 2026 paper in preparation: 'Sarvam VideoDubber: Low-Resource Multilingual AI Video Dubbing'",
+      "Shortlisted for ARTPARK/IISc TIR Incubation Program (Zivana AI — YOLOv8 CCTV security system for Indian SMEs)",
+      "Shortlisted for Sarvam BuildIn' Hours offline hackathon round, Bengaluru, 2025",
+      "E-Cell IIT Bombay NEC2026 Hackathon participant; 3LC Hack[AI]thon 2.0 certificate (CEO Paul Endresen)",
+      "GATE CSE 2027 aspirant targeting 65+ score for M.Tech admission; preparation ongoing since August 2024"
+    ]
+  },
+  {
     id: 'tpl-fullstack-dev',
     title: 'Full-Stack Software Engineer',
     type: 'ATS-Friendly',

@@ -8,6 +8,126 @@ const types = [
   'ATS-Friendly'
 ];
 
+export const kuvaleshResume = {
+  type: 'ATS-Friendly',
+  title: 'Kuvalesh C D — Full Stack AI Developer',
+  personal: {
+    name: 'KUVALESH C D',
+    title: 'Full Stack AI Developer',
+    email: 'kuvaleshcd@gmail.com',
+    phone: '+91 73383 74900',
+    location: 'Bengaluru, Karnataka',
+    linkedin: '',
+    github: 'kuvaleshcd-hue',
+    portfolio: 'https://kuvalesh.netlify.app',
+    summary: 'Information Science graduate with hands-on experience in speech, NLP, and full-stack AI development. Seeking an opportunity to apply my technical skills, learn from experienced teams, and contribute to impactful AI projects, especially ones that make technology accessible in Indian languages.'
+  },
+  education: [
+    {
+      degree: 'B.E. Information Science',
+      institution: 'Ghousia College of Engineering, VTU, Bengaluru',
+      university: '',
+      location: '',
+      start: '2023',
+      end: '2027',
+      grade: ''
+    }
+  ],
+  projectsTitle: 'RELEVANT PROJECTS — SPEECH, NLP & AI',
+  projects: [
+    {
+      name: 'Sarvam VideoDubber | AI Multi-language Video Dubbing Pipeline',
+      date: '2025 – 2026',
+      subtitle: "Sarvam AI BuildIn' Hours Hackathon — Shortlisted for offline round, Bengaluru",
+      link: 'https://github.com/kuvaleshcd-hue/Sarvam-VideoDubber',
+      description: "• End-to-end dubbing pipeline: Saaras v3 (STT) → Sarvam-Translate → Bulbul v3 (TTS) for 16 Indian languages\n• Built advanced audio processing with FFmpeg atempo sync, subtitle overlay, SRT export, and batch dubbing\n• Deployed on Streamlit Cloud; preparing IEEE INDICON 2026 paper on low-resource language dubbing evaluation • GitHub"
+    },
+    {
+      name: 'VAANI | Kannada Voice Assistant',
+      date: '2025',
+      subtitle: '',
+      link: '',
+      description: "• Built an end-to-end Kannada voice assistant using LLaMA 3 via Groq, with STT and TTS integration\n• Focused on natural conversational flow in Kannada for rural and non-English-speaking users"
+    },
+    {
+      name: 'Hanu Agri | AI Agricultural Demand Prediction System',
+      date: '2025',
+      subtitle: '',
+      link: 'https://github.com/kuvaleshcd-hue/Hanu-Agri',
+      description: "• 7 ML models: crop recommendation, disease detection (image), price forecasting, fertilizer guidance, demand-supply analysis, profitability calculator, and weather advisory — exposed via Flask REST APIs\n• scikit-learn (.pkl models) + vanilla JS + Chart.js + Leaflet maps; deployed on Netlify • Live Demo • GitHub"
+    },
+    {
+      name: 'Vision Films | Photography & Videography Studio Website',
+      date: '2025',
+      subtitle: '',
+      link: 'https://github.com/kuvaleshcd-hue/Vision-Films',
+      description: "• Cinematic portfolio site for Vision Films Mysore — smooth scroll, CSS animations, gallery, responsive layout\n• Live Demo • GitHub • Demonstrates UI/UX and frontend design proficiency"
+    }
+  ],
+  skillCategories: [
+    {
+      category: 'Speech & Audio',
+      skills: 'STT/TTS pipelines, FFmpeg audio processing, diarization concepts, Sarvam AI suite (Saaras, Bulbul, Translate), pyaudio, pydub'
+    },
+    {
+      category: 'Languages',
+      skills: 'Python, JavaScript, C, SQL, Bash • Kannada (native), English (fluent), Hindi'
+    },
+    {
+      category: 'Backend / APIs',
+      skills: 'FastAPI, Flask, Node.js, REST APIs, Google Calendar API, Gmail API, OAuth 2.0, WebSockets'
+    },
+    {
+      category: 'Frontend',
+      skills: 'React, Streamlit, HTML/CSS, Chrome Extension (Manifest V3)'
+    },
+    {
+      category: 'Tools & Infra',
+      skills: 'Git, GitHub, Docker (basic), VS Code, Jupyter, Streamlit Cloud, Antigravity'
+    }
+  ],
+  skills: [
+    'Speech & Audio (STT/TTS, FFmpeg, Sarvam AI)',
+    'Python', 'FastAPI', 'Flask', 'Node.js', 'React', 'Streamlit',
+    'Docker', 'Git', 'GitHub', 'SQL', 'LLaMA 3', 'Groq'
+  ],
+  experience: [
+    {
+      role: 'Full Stack AI Developer Intern',
+      company: 'OmniIDE, Bengaluru',
+      start: '2026',
+      end: 'Present',
+      subtitle: 'Early-stage startup building open-source local-native AI infrastructure',
+      details: "• Contributing to AI agent orchestration and developer tooling for local LLM deployment\n• Working directly with the founder on system architecture and full-stack implementation"
+    },
+    {
+      role: 'Cybersecurity Intern',
+      company: 'Elevate Labs',
+      start: 'May',
+      end: 'Jul 2026',
+      subtitle: 'Best Performer Award',
+      details: "• Built HoneyPot Server (Flask + paramiko SSH + Fail2ban), SOC dashboard, and Log Analyzer"
+    },
+    {
+      role: 'Cybersecurity Intern',
+      company: 'CodeAlpha',
+      start: 'Jul',
+      end: '2026',
+      subtitle: '',
+      details: "• Built Network Packet Sniffer (Scapy), PhishGuard URL scanner, and NIDS web app (FastAPI + WebSocket)"
+    }
+  ],
+  certifications: [],
+  achievementsTitle: 'PUBLICATIONS & ACHIEVEMENTS',
+  achievements: [
+    "IEEE INDICON 2026 paper in preparation: 'Sarvam VideoDubber: Low-Resource Multilingual AI Video Dubbing'",
+    "Shortlisted for ARTPARK/IISc TIR Incubation Program (Zivana AI — YOLOv8 CCTV security system for Indian SMEs)",
+    "Shortlisted for Sarvam BuildIn' Hours offline hackathon round, Bengaluru, 2025",
+    "E-Cell IIT Bombay NEC2026 Hackathon participant; 3LC Hack[AI]thon 2.0 certificate (CEO Paul Endresen)",
+    "GATE CSE 2027 aspirant targeting 65+ score for M.Tech admission; preparation ongoing since August 2024"
+  ]
+};
+
 const blank = {
   type: 'ATS-Friendly',
   title: 'Untitled Resume',
@@ -16,15 +136,62 @@ const blank = {
     linkedin: '', github: '', portfolio: '', summary: ''
   },
   education: [{ degree: '', institution: '', university: '', location: '', start: '', end: '', grade: '' }],
+  projectsTitle: 'RELEVANT PROJECTS — SPEECH, NLP & AI',
+  projects: [{ name: '', date: '', subtitle: '', link: '', description: '' }],
+  skillCategories: [
+    { category: 'Speech & Audio', skills: '' },
+    { category: 'Languages', skills: '' },
+    { category: 'Backend / APIs', skills: '' },
+    { category: 'Frontend', skills: '' },
+    { category: 'Tools & Infra', skills: '' }
+  ],
   skills: [],
-  projects: [{ name: '', tech: '', description: '', link: '' }],
-  experience: [{ role: '', company: '', start: '', end: '', details: '' }],
+  experience: [{ role: '', company: '', start: '', end: '', subtitle: '', details: '' }],
   certifications: [{ name: '', issuer: '', date: '' }],
+  achievementsTitle: 'PUBLICATIONS & ACHIEVEMENTS',
   achievements: ['']
 };
 
-const steps = ['Personal', 'Education', 'Skills', 'Projects', 'Experience', 'Certifications', 'Achievements'];
+const steps = ['Personal', 'Education', 'Projects', 'Skills', 'Experience', 'Achievements'];
 const clone = x => JSON.parse(JSON.stringify(x));
+
+function renderRichText(text, fallbackLink) {
+  if (!text) return null;
+  const parts = text.split(/(•\s*GitHub|•\s*Live Demo|\[[^\]]+\]\([^)]+\)|https?:\/\/[^\s)]+)/gi);
+  return parts.map((part, i) => {
+    if (!part) return null;
+    if (/^•\s*GitHub$/i.test(part.trim())) {
+      return (
+        <span key={i}>
+          • <a href={fallbackLink || 'https://github.com/kuvaleshcd-hue'} target="_blank" rel="noreferrer" className="resume-blue-link">GitHub</a>
+        </span>
+      );
+    }
+    if (/^•\s*Live Demo$/i.test(part.trim())) {
+      return (
+        <span key={i}>
+          • <a href="https://kuvalesh.netlify.app" target="_blank" rel="noreferrer" className="resume-blue-link">Live Demo</a>
+        </span>
+      );
+    }
+    const mdMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (mdMatch) {
+      return (
+        <a key={i} href={mdMatch[2]} target="_blank" rel="noreferrer" className="resume-blue-link">
+          {mdMatch[1]}
+        </a>
+      );
+    }
+    if (/^https?:\/\//i.test(part.trim())) {
+      return (
+        <a key={i} href={part.trim()} target="_blank" rel="noreferrer" className="resume-blue-link">
+          {part.trim().replace(/^https?:\/\//, '').replace(/\/$/, '')}
+        </a>
+      );
+    }
+    return part;
+  });
+}
 
 function Field({ label, value, onChange, placeholder = '', area = false, extra = null }) {
   return (
@@ -44,68 +211,243 @@ function Field({ label, value, onChange, placeholder = '', area = false, extra =
 
 function Resume({ d }) {
   const p = d.personal || {};
+
+  // Normalize skill categories: support skillCategories or fallback to skills array
+  let skillCats = Array.isArray(d.skillCategories) && d.skillCategories.length > 0
+    ? d.skillCategories.filter(sc => sc.category || sc.skills)
+    : [];
+
+  if (skillCats.length === 0 && Array.isArray(d.skills) && d.skills.length > 0) {
+    const parsed = [];
+    const plain = [];
+    d.skills.forEach(s => {
+      const idx = s.indexOf(':');
+      if (idx > 0) {
+        parsed.push({ category: s.slice(0, idx).trim(), skills: s.slice(idx + 1).trim() });
+      } else {
+        plain.push(s);
+      }
+    });
+    if (parsed.length > 0) {
+      skillCats = parsed;
+      if (plain.length > 0) {
+        skillCats.push({ category: 'Other Skills', skills: plain.join(', ') });
+      }
+    }
+  }
+
   return (
     <article className="paper">
-      <header>
-        <h1>{p.name || 'YOUR NAME'}</h1>
-        <b>{p.title || 'Professional Title'}</b>
-        <p>{[p.email, p.phone, p.location, p.linkedin, p.github, p.portfolio].filter(Boolean).join(' • ')}</p>
+      {/* 1. Header: Name (bold uppercase), Location, Contact row with blue links */}
+      <header className="resume-header">
+        <h1 className="resume-name">{p.name || 'YOUR NAME'}</h1>
+        {p.location && <div className="resume-location">{p.location}</div>}
+        <div className="resume-contact">
+          {p.phone && <span>{p.phone}</span>}
+          {p.email && (
+            <>
+              {p.phone && <span className="sep">•</span>}
+              <a href={`mailto:${p.email}`}>{p.email}</a>
+            </>
+          )}
+          {p.portfolio && (
+            <>
+              {(p.phone || p.email) && <span className="sep">•</span>}
+              <a href={p.portfolio.startsWith('http') ? p.portfolio : `https://${p.portfolio}`} target="_blank" rel="noreferrer">
+                {p.portfolio.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+              </a>
+            </>
+          )}
+          {p.github && (
+            <>
+              {(p.phone || p.email || p.portfolio) && <span className="sep">•</span>}
+              <a href={p.github.startsWith('http') ? p.github : `https://github.com/${p.github.replace(/^GitHub:\s*/i, '')}`} target="_blank" rel="noreferrer">
+                {p.github.includes('github.com/')
+                  ? `GitHub: ${p.github.split('github.com/')[1]}`
+                  : p.github.startsWith('GitHub:')
+                  ? p.github
+                  : `GitHub: ${p.github}`}
+              </a>
+            </>
+          )}
+          {p.linkedin && (
+            <>
+              {(p.phone || p.email || p.portfolio || p.github) && <span className="sep">•</span>}
+              <a href={p.linkedin.startsWith('http') ? p.linkedin : `https://${p.linkedin}`} target="_blank" rel="noreferrer">
+                {p.linkedin.includes('linkedin.com/in/')
+                  ? `LinkedIn: ${p.linkedin.split('linkedin.com/in/')[1]}`
+                  : p.linkedin}
+              </a>
+            </>
+          )}
+        </div>
       </header>
+
+      {/* 2. OBJECTIVE: Royal blue uppercase title + full-width horizontal rule */}
       {p.summary && (
-        <section>
-          <h2 style={{ borderBottom: 'none', paddingBottom: 0, marginBottom: 2 }}>OBJECTIVE</h2>
-          <hr className="paper-hr" />
-          <p>{p.summary}</p>
+        <section className="resume-section">
+          <div className="resume-section-head">
+            <h2>OBJECTIVE</h2>
+            <div className="resume-section-line" />
+          </div>
+          <p className="resume-objective-text">{p.summary}</p>
         </section>
       )}
+
+      {/* 3. EDUCATION */}
       {d.education?.some(x => x.degree || x.institution) && (
-        <section>
-          <h2>EDUCATION</h2>
+        <section className="resume-section">
+          <div className="resume-section-head">
+            <h2>EDUCATION</h2>
+            <div className="resume-section-line" />
+          </div>
           {d.education.filter(x => x.degree || x.institution).map((x, i) => (
-            <div className="entry" key={i}>
-              <b>{x.degree}</b><span>{x.start} {x.end && '– ' + x.end}</span>
-              <p>{x.institution} {x.university && ' • ' + x.university}</p>
-              <small>{[x.location, x.grade].filter(Boolean).join(' • ')}</small>
+            <div className="resume-item" key={i}>
+              <div className="resume-row">
+                <b className="resume-item-title">{x.degree}</b>
+                <span className="resume-item-date">{x.start}{x.end && ' – ' + x.end}</span>
+              </div>
+              <div className="resume-item-sub">
+                {x.institution}{x.university && `, ${x.university}`}{x.location && `, ${x.location}`}
+              </div>
+              {x.grade && <div className="resume-item-sub italic">{x.grade}</div>}
             </div>
           ))}
         </section>
       )}
-      {d.skills?.length > 0 && <section><h2>SKILLS</h2><p>{d.skills.join(' • ')}</p></section>}
+
+      {/* 4. RELEVANT PROJECTS (Matches PDF: right after Education!) */}
       {d.projects?.some(x => x.name || x.description) && (
-        <section>
-          <h2>PROJECTS</h2>
-          {d.projects.filter(x => x.name || x.description).map((x, i) => (
-            <div className="entry" key={i}>
-              <b>{x.name}</b>{x.tech && <small>{x.tech}</small>}
-              <p className="preserve">{x.description}</p>
-              {x.link && <small>{x.link}</small>}
-            </div>
-          ))}
+        <section className="resume-section">
+          <div className="resume-section-head">
+            <h2>{d.projectsTitle || 'RELEVANT PROJECTS — SPEECH, NLP & AI'}</h2>
+            <div className="resume-section-line" />
+          </div>
+          {d.projects.filter(x => x.name || x.description).map((x, i) => {
+            const pipeIdx = (x.name || '').indexOf(' | ');
+            const mainName = pipeIdx > 0 ? x.name.slice(0, pipeIdx) : x.name;
+            const subtitleTag = pipeIdx > 0 ? x.name.slice(pipeIdx) : '';
+            const bulletLines = (x.description || '')
+              .split('\n')
+              .map(l => l.trim())
+              .filter(Boolean);
+
+            return (
+              <div className="resume-item" key={i}>
+                <div className="resume-row">
+                  <div className="resume-item-title">
+                    {x.link ? (
+                      <a href={x.link.startsWith('http') ? x.link : `https://${x.link}`} target="_blank" rel="noreferrer" className="resume-project-name">
+                        {mainName}
+                      </a>
+                    ) : (
+                      <span className="resume-project-name">{mainName}</span>
+                    )}
+                    {subtitleTag && <span>{subtitleTag}</span>}
+                  </div>
+                  {x.date && <span className="resume-item-date">{x.date}</span>}
+                </div>
+                {x.subtitle && <div className="resume-item-sub italic">{x.subtitle}</div>}
+                {bulletLines.length > 0 && (
+                  <ul className="resume-bullets">
+                    {bulletLines.map((line, bIdx) => (
+                      <li key={bIdx}>{renderRichText(line.replace(/^[•\-\*]\s*/, ''), x.link)}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            );
+          })}
         </section>
       )}
+
+      {/* 5. TECHNICAL SKILLS: 2-Column Table (Matches PDF!) */}
+      {(skillCats.length > 0 || (d.skills && d.skills.length > 0)) && (
+        <section className="resume-section">
+          <div className="resume-section-head">
+            <h2>TECHNICAL SKILLS</h2>
+            <div className="resume-section-line" />
+          </div>
+          {skillCats.length > 0 ? (
+            <table className="resume-skills-table">
+              <tbody>
+                {skillCats.map((sc, i) => (
+                  <tr key={i}>
+                    <td className="skill-cat-cell">{sc.category}</td>
+                    <td className="skill-val-cell">{sc.skills}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="resume-objective-text">{d.skills.join(' • ')}</p>
+          )}
+        </section>
+      )}
+
+      {/* 6. EXPERIENCE */}
       {d.experience?.some(x => x.role || x.company) && (
-        <section>
-          <h2>EXPERIENCE</h2>
-          {d.experience.filter(x => x.role || x.company).map((x, i) => (
-            <div className="entry" key={i}>
-              <b>{x.role} {x.company && '— ' + x.company}</b><span>{x.start} {x.end && '– ' + x.end}</span>
-              <p className="preserve">{x.details}</p>
-            </div>
-          ))}
+        <section className="resume-section">
+          <div className="resume-section-head">
+            <h2>EXPERIENCE</h2>
+            <div className="resume-section-line" />
+          </div>
+          {d.experience.filter(x => x.role || x.company).map((x, i) => {
+            const bulletLines = (x.details || '')
+              .split('\n')
+              .map(l => l.trim())
+              .filter(Boolean);
+            const dateStr = [x.start, x.end].filter(Boolean).join(' – ');
+
+            return (
+              <div className="resume-item" key={i}>
+                <div className="resume-row">
+                  <b className="resume-item-title">
+                    {x.role} {x.company && '— ' + x.company}
+                  </b>
+                  {dateStr && <span className="resume-item-date">{dateStr}</span>}
+                </div>
+                {x.subtitle && <div className="resume-item-sub italic">{x.subtitle}</div>}
+                {bulletLines.length > 0 && (
+                  <ul className="resume-bullets">
+                    {bulletLines.map((line, bIdx) => (
+                      <li key={bIdx}>{renderRichText(line.replace(/^[•\-\*]\s*/, ''))}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            );
+          })}
         </section>
       )}
+
+      {/* 7. CERTIFICATIONS (Optional, if exists) */}
       {d.certifications?.some(x => x.name) && (
-        <section>
-          <h2>CERTIFICATIONS</h2>
-          <ul>{d.certifications.filter(x => x.name).map((x, i) => (
-            <li key={i}>{x.name}{x.issuer ? ' — ' + x.issuer : ''}{x.date ? ' (' + x.date + ')' : ''}</li>
-          ))}</ul>
+        <section className="resume-section">
+          <div className="resume-section-head">
+            <h2>CERTIFICATIONS</h2>
+            <div className="resume-section-line" />
+          </div>
+          <ul className="resume-bullets">
+            {d.certifications.filter(x => x.name).map((x, i) => (
+              <li key={i}>{x.name}{x.issuer ? ' — ' + x.issuer : ''}{x.date ? ' (' + x.date + ')' : ''}</li>
+            ))}
+          </ul>
         </section>
       )}
+
+      {/* 8. PUBLICATIONS & ACHIEVEMENTS */}
       {d.achievements?.some(Boolean) && (
-        <section>
-          <h2>ACHIEVEMENTS</h2>
-          <ul>{d.achievements.filter(Boolean).map((x, i) => <li key={i}>{x}</li>)}</ul>
+        <section className="resume-section">
+          <div className="resume-section-head">
+            <h2>{d.achievementsTitle || 'PUBLICATIONS & ACHIEVEMENTS'}</h2>
+            <div className="resume-section-line" />
+          </div>
+          <ul className="resume-bullets">
+            {d.achievements.filter(Boolean).map((x, i) => (
+              <li key={i}>{renderRichText(x.replace(/^[•\-\*]\s*/, ''))}</li>
+            ))}
+          </ul>
         </section>
       )}
     </article>
@@ -115,9 +457,13 @@ function Resume({ d }) {
 export default function App() {
   const [d, setD] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem('sr-draft')) || clone(blank);
+      const saved = JSON.parse(localStorage.getItem('sr-draft'));
+      if (saved && saved.personal?.name && saved.personal?.name !== 'Alex Rivera' && saved.personal?.name !== 'YOUR NAME') {
+        return saved;
+      }
+      return clone(kuvaleshResume);
     } catch {
-      return clone(blank);
+      return clone(kuvaleshResume);
     }
   });
 
@@ -463,16 +809,17 @@ export default function App() {
   );
 
   const content = () => {
+    // 0: Personal
     if (step === 0) return (
       <div className="grid">
-        {field('Full name', ['personal', 'name'], 'Your name')}
-        {field('Professional title', ['personal', 'title'], 'e.g. Full-Stack Developer')}
-        {field('Email', ['personal', 'email'], 'you@example.com')}
-        {field('Phone', ['personal', 'phone'], '+91 ...')}
-        {field('Location', ['personal', 'location'], 'City, State')}
-        {field('LinkedIn', ['personal', 'linkedin'], 'https://linkedin.com/in/...')}
-        {field('GitHub', ['personal', 'github'], 'https://github.com/...')}
-        {field('Portfolio', ['personal', 'portfolio'], 'https://...')}
+        {field('Full name', ['personal', 'name'], 'KUVALESH C D')}
+        {field('Professional title', ['personal', 'title'], 'Full Stack AI Developer')}
+        {field('Location', ['personal', 'location'], 'Bengaluru, Karnataka')}
+        {field('Phone', ['personal', 'phone'], '+91 73383 74900')}
+        {field('Email', ['personal', 'email'], 'kuvaleshcd@gmail.com')}
+        {field('Portfolio / Website URL', ['personal', 'portfolio'], 'https://kuvalesh.netlify.app')}
+        {field('GitHub username / link', ['personal', 'github'], 'kuvaleshcd-hue')}
+        {field('LinkedIn URL (optional)', ['personal', 'linkedin'], 'https://linkedin.com/in/...')}
         <div className="wide">
           {area(
             'OBJECTIVE',
@@ -486,103 +833,181 @@ export default function App() {
       </div>
     );
 
+    // 1: Education
     if (step === 1) return repeat(
       'education', 'Education',
       { degree: '', institution: '', university: '', location: '', start: '', end: '', grade: '' },
       i => (
         <>
-          {field('Degree / Qualification', ['education', i, 'degree'], 'B.E. / B.Tech / BCA')}
-          {field('Institution / College', ['education', i, 'institution'], 'College name')}
-          {field('University / Board', ['education', i, 'university'], 'University name')}
-          {field('Location', ['education', i, 'location'], 'City')}
+          {field('Degree / Qualification', ['education', i, 'degree'], 'B.E. Information Science')}
+          {field('Institution / College', ['education', i, 'institution'], 'Ghousia College of Engineering, VTU, Bengaluru')}
           {field('Start year', ['education', i, 'start'], '2023')}
-          {field('End year', ['education', i, 'end'], '2027 / Present')}
-          {field('CGPA / Percentage', ['education', i, 'grade'], '8.5 CGPA')}
+          {field('End year', ['education', i, 'end'], '2027')}
+          {field('University / Board (optional)', ['education', i, 'university'], 'VTU')}
+          {field('Location (optional)', ['education', i, 'location'], 'Bengaluru')}
+          {field('Grade / Percentage (optional)', ['education', i, 'grade'], 'CGPA or Percentage')}
         </>
       )
     );
 
+    // 2: Relevant Projects (Placed right after Education, matching PDF!)
     if (step === 2) return (
       <>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <p className="hint">Add industry-relevant keywords and tools.</p>
+        <div style={{ marginBottom: 18 }}>
+          {field('Projects Section Title', ['projectsTitle'], 'RELEVANT PROJECTS — SPEECH, NLP & AI')}
+        </div>
+        {repeat(
+          'projects', 'Project',
+          { name: '', date: '', subtitle: '', link: '', description: '' },
+          i => (
+            <>
+              {field('Project Title & Tagline', ['projects', i, 'name'], 'Sarvam VideoDubber | AI Multi-language Video Dubbing Pipeline')}
+              {field('Date / Duration', ['projects', i, 'date'], '2025 – 2026')}
+              <div className="wide">
+                {field('Hackathon / Award / Subtitle', ['projects', i, 'subtitle'], "Sarvam AI BuildIn' Hours Hackathon — Shortlisted for offline round, Bengaluru")}
+              </div>
+              <div className="wide">
+                {field('Project Link (GitHub / Live Demo)', ['projects', i, 'link'], 'https://github.com/kuvaleshcd-hue/Sarvam-VideoDubber')}
+              </div>
+              <div className="wide">
+                {area(
+                  'Bullet Points & Outcomes (One bullet per line)',
+                  ['projects', i, 'description'],
+                  "• End-to-end dubbing pipeline: Saaras v3 (STT) → Sarvam-Translate → Bulbul v3 (TTS)\n• Built advanced audio processing with FFmpeg atempo sync\n• Deployed on Streamlit Cloud • GitHub",
+                  <button
+                    className="ai-trigger"
+                    type="button"
+                    onClick={() => triggerAiPolish(['projects', i, 'description'], `Project: ${d.projects[i]?.name || 'Project'}`)}
+                  >
+                    <Sparkles size={12} /> AI Polish (STAR)
+                  </button>
+                )}
+              </div>
+            </>
+          )
+        )}
+      </>
+    );
+
+    // 3: Technical Skills Table (Matches PDF table layout!)
+    if (step === 3) return (
+      <>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+          <div>
+            <b>Technical Skill Categories</b>
+            <p className="hint" style={{ margin: '3px 0 0' }}>Organize skills by category for the professional 2-column resume table.</p>
+          </div>
           <button className="ai-trigger" type="button" onClick={triggerAiSkills}>
             <Sparkles size={12} /> AI Suggest Skills
           </button>
         </div>
-        <div className="skillrow">
-          <input
-            value={skill}
-            onChange={e => setSkill(e.target.value)}
-            placeholder="e.g. React, Node.js, TypeScript, Docker"
-            onKeyDown={e => {
-              if (e.key === 'Enter' && skill.trim()) {
+
+        {/* Skill Categories Table Editor */}
+        <div style={{ display: 'grid', gap: 10, marginBottom: 20 }}>
+          {(d.skillCategories || []).map((sc, i) => (
+            <div key={i} style={{ display: 'grid', gridTemplateColumns: '160px 1fr 34px', gap: 8, alignItems: 'center', background: '#f8fafc', padding: 8, borderRadius: 8, border: '1px solid #e2e8f0' }}>
+              <input
+                value={sc.category}
+                onChange={e => {
+                  const copy = clone(d.skillCategories || []);
+                  copy[i].category = e.target.value;
+                  upd(['skillCategories'], copy);
+                }}
+                placeholder="Category (e.g. Speech & Audio)"
+                style={{ fontWeight: 700, fontSize: 11 }}
+              />
+              <input
+                value={sc.skills}
+                onChange={e => {
+                  const copy = clone(d.skillCategories || []);
+                  copy[i].skills = e.target.value;
+                  upd(['skillCategories'], copy);
+                }}
+                placeholder="Comma-separated skills (e.g. Python, FastAPI, Docker)"
+                style={{ fontSize: 11 }}
+              />
+              <button
+                className="icon"
+                type="button"
+                title="Remove Category"
+                onClick={() => {
+                  const copy = (d.skillCategories || []).filter((_, j) => j !== i);
+                  upd(['skillCategories'], copy);
+                }}
+              >
+                <Trash2 size={13} />
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            className="secondary"
+            style={{ justifySelf: 'flex-start', fontSize: 11, padding: '7px 12px' }}
+            onClick={() => {
+              const copy = clone(d.skillCategories || []);
+              copy.push({ category: 'Category Name', skills: '' });
+              upd(['skillCategories'], copy);
+            }}
+          >
+            <Plus size={13} /> Add Skill Category Row
+          </button>
+        </div>
+
+        {/* Quick individual skills */}
+        <div>
+          <b>Quick Skills / Tags (Optional)</b>
+          <div className="skillrow" style={{ marginTop: 8 }}>
+            <input
+              value={skill}
+              onChange={e => setSkill(e.target.value)}
+              placeholder="e.g. React, Node.js, Docker, PyTorch"
+              onKeyDown={e => {
+                if (e.key === 'Enter' && skill.trim()) {
+                  upd(['skills'], [...(d.skills || []), skill.trim()]);
+                  setSkill('');
+                }
+              }}
+            />
+            <button className="primary" type="button" onClick={() => {
+              if (skill.trim()) {
                 upd(['skills'], [...(d.skills || []), skill.trim()]);
                 setSkill('');
               }
-            }}
-          />
-          <button className="primary" onClick={() => {
-            if (skill.trim()) {
-              upd(['skills'], [...(d.skills || []), skill.trim()]);
-              setSkill('');
-            }
-          }}>Add Skill</button>
-        </div>
-        <div className="chips">
-          {d.skills?.map((s, i) => (
-            <span key={i}>
-              {s}
-              <button onClick={() => upd(['skills'], d.skills.filter((_, j) => j !== i))}>×</button>
-            </span>
-          ))}
+            }}>Add</button>
+          </div>
+          <div className="chips">
+            {d.skills?.map((s, i) => (
+              <span key={i}>
+                {s}
+                <button type="button" onClick={() => upd(['skills'], d.skills.filter((_, j) => j !== i))}>×</button>
+              </span>
+            ))}
+          </div>
         </div>
       </>
     );
 
-    if (step === 3) return repeat(
-      'projects', 'Project',
-      { name: '', tech: '', description: '', link: '' },
-      i => (
-        <>
-          {field('Project name', ['projects', i, 'name'], 'Project title')}
-          {field('Technologies used', ['projects', i, 'tech'], 'Python, React, MongoDB...')}
-          {field('GitHub / live URL', ['projects', i, 'link'], 'https://...')}
-          <div className="wide">
-            {area(
-              'Description & Impact',
-              ['projects', i, 'description'],
-              'What did you build? What was your contribution and outcome?',
-              <button
-                className="ai-trigger"
-                type="button"
-                onClick={() => triggerAiPolish(['projects', i, 'description'], `Project: ${d.projects[i]?.name || 'Project'}`)}
-              >
-                <Sparkles size={12} /> AI Polish (STAR)
-              </button>
-            )}
-          </div>
-        </>
-      )
-    );
-
+    // 4: Experience
     if (step === 4) return (
       <>
-        <p className="hint">Freshers can skip this section or include internships / freelance work.</p>
+        <p className="hint">Include internships, startup roles, or full-time experience.</p>
         {repeat(
           'experience', 'Experience',
-          { role: '', company: '', start: '', end: '', details: '' },
+          { role: '', company: '', start: '', end: '', subtitle: '', details: '' },
           i => (
             <>
-              {field('Job title', ['experience', i, 'role'], 'Software Developer Intern')}
-              {field('Company / Organization', ['experience', i, 'company'], 'Tech Corp')}
-              {field('Start date', ['experience', i, 'start'], 'Jun 2025')}
-              {field('End date', ['experience', i, 'end'], 'Present')}
+              {field('Job Title / Role', ['experience', i, 'role'], 'Full Stack AI Developer Intern')}
+              {field('Company & Location', ['experience', i, 'company'], 'OmniIDE, Bengaluru')}
+              {field('Start date', ['experience', i, 'start'], '2026 / May 2026')}
+              {field('End date', ['experience', i, 'end'], 'Present / Jul 2026')}
+              <div className="wide">
+                {field('Subtitle / Highlight / Award', ['experience', i, 'subtitle'], 'Early-stage startup building open-source local-native AI infrastructure')}
+              </div>
               <div className="wide">
                 {area(
-                  'Responsibilities & Results',
+                  'Responsibilities & Results (One bullet per line)',
                   ['experience', i, 'details'],
-                  'One responsibility or achievement per line with quantifiable outcomes',
+                  "• Contributing to AI agent orchestration and developer tooling for local LLM deployment\n• Working directly with the founder on system architecture",
                   <button
                     className="ai-trigger"
                     type="button"
@@ -598,33 +1023,26 @@ export default function App() {
       </>
     );
 
-    if (step === 5) return repeat(
-      'certifications', 'Certification',
-      { name: '', issuer: '', date: '' },
-      i => (
-        <>
-          {field('Certification name', ['certifications', i, 'name'], 'AWS Certified Developer')}
-          {field('Issuer / Organization', ['certifications', i, 'issuer'], 'Amazon Web Services')}
-          {field('Issue date', ['certifications', i, 'date'], '2025')}
-        </>
-      )
-    );
-
+    // 5: Publications & Achievements (Matches PDF!)
     return (
       <div className="block">
-        <div className="blockhead">
-          <h3>Achievements</h3>
-          <button className="link" onClick={() => add('achievements', '')}><Plus size={15} /> Add another</button>
+        <div style={{ marginBottom: 18 }}>
+          {field('Achievements Section Title', ['achievementsTitle'], 'PUBLICATIONS & ACHIEVEMENTS')}
         </div>
+        <div className="blockhead">
+          <h3>Publications, Awards & Certifications</h3>
+          <button className="link" type="button" onClick={() => add('achievements', '')}><Plus size={15} /> Add another</button>
+        </div>
+        <p className="hint" style={{ marginBottom: 12 }}>Include published papers, hackathon recognitions, incubation shortlists, certifications, or competitive exam goals.</p>
         {d.achievements?.map((x, i) => (
           <div className="skillrow" key={i}>
             <input
               value={x}
               onChange={e => upd(['achievements', i], e.target.value)}
-              placeholder="e.g. 1st Place in University Hackathon out of 100+ teams"
+              placeholder="e.g. IEEE INDICON 2026 paper: 'Low-Resource Multilingual AI Video Dubbing' or Hackathon Winner"
             />
             {d.achievements.length > 1 && (
-              <button className="icon" onClick={() => del('achievements', i)}><Trash2 size={15} /></button>
+              <button className="icon" type="button" onClick={() => del('achievements', i)}><Trash2 size={15} /></button>
             )}
           </div>
         ))}
@@ -664,6 +1082,17 @@ export default function App() {
 
           <button className="btn-chip" onClick={openTemplates}>
             <FolderOpen size={14} /> Templates
+          </button>
+
+          <button
+            className="btn-chip"
+            style={{ borderColor: '#1d4ed8', color: '#1d4ed8', fontWeight: 600 }}
+            onClick={() => {
+              setD(clone(kuvaleshResume));
+              showToast('✓ Loaded Kuvalesh C D Format');
+            }}
+          >
+            <Sparkles size={14} /> Kuvalesh Format
           </button>
 
           <button className="btn-chip highlight" onClick={runAtsScan}>
