@@ -43,18 +43,66 @@ const POWER_VERBS = [
 
 export class AIService {
   constructor() {
+    this.groqKey = process.env.GROQ_API_KEY || null;
     this.geminiKey = process.env.GEMINI_API_KEY || null;
     this.openaiKey = process.env.OPENAI_API_KEY || null;
   }
 
   isExternalAiConfigured() {
-    return Boolean(this.geminiKey || this.openaiKey);
+    return Boolean(this.groqKey || this.geminiKey || this.openaiKey);
   }
 
   getMode() {
+    if (this.groqKey) return 'Groq LPU (LLaMA 3.3 70B)';
     if (this.geminiKey) return 'Gemini API Connected';
     if (this.openaiKey) return 'OpenAI API Connected';
     return 'Smart Built-in NLP Engine';
+  }
+
+  // --- External API Call (Groq LPU) ---
+  async callGroq({ prompt, systemPrompt = '', responseFormat = 'json', apiKey = null, model = 'llama-3.3-70b-versatile' }) {
+    const key = apiKey || this.groqKey;
+    if (!key) return null;
+
+    try {
+      const messages = [];
+      if (systemPrompt) {
+        messages.push({ role: 'system', content: systemPrompt });
+      }
+      messages.push({ role: 'user', content: prompt });
+
+      const payload = {
+        model: model || 'llama-3.3-70b-versatile',
+        messages,
+        temperature: 0.3,
+        max_tokens: 3500
+      };
+
+      if (responseFormat === 'json') {
+        payload.response_format = { type: 'json_object' };
+      }
+
+      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${key}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.warn('[AIService] Groq API error:', res.status, errorText);
+        throw new Error(`Groq API error (${res.status}): ${errorText}`);
+      }
+
+      const data = await res.json();
+      return data.choices?.[0]?.message?.content || null;
+    } catch (err) {
+      console.warn('[AIService] Failed to query Groq:', err.message);
+      throw err;
+    }
   }
 
   // --- External API Call (Gemini) ---
@@ -82,8 +130,162 @@ export class AIService {
     }
   }
 
+  // --- Fetch GitHub Profile Telemetry ---
+  async fetchGitHubContext(usernameOrUrl) {
+    if (!usernameOrUrl) return null;
+    let username = usernameOrUrl.trim();
+    if (username.includes('github.com/')) {
+      const match = username.match(/github\.com\/([a-zA-Z0-9_\-]+)/);
+      if (match) username = match[1];
+    }
+    username = username.replace(/^@/, '').replace(/\/$/, '');
+    if (!username) return null;
+
+    try {
+      const headers = { 'User-Agent': 'SmartResume-AI' };
+      const [userRes, reposRes] = await Promise.all([
+        fetch(`https://api.github.com/users/${username}`, { headers }),
+        fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=8`, { headers })
+      ]);
+
+      const user = userRes.ok ? await userRes.json() : null;
+      const repos = reposRes.ok ? await reposRes.json() : [];
+
+      if (!user && repos.length === 0) return null;
+
+      return {
+        username,
+        name: user?.name || username,
+        bio: user?.bio || '',
+        location: user?.location || '',
+        blog: user?.blog || '',
+        publicReposCount: user?.public_repos || 0,
+        repos: Array.isArray(repos) ? repos.map(r => ({
+          name: r.name,
+          description: r.description || '',
+          language: r.language || '',
+          stars: r.stargazers_count || 0,
+          url: r.html_url || '',
+          topics: r.topics || []
+        })) : []
+      };
+    } catch (err) {
+      console.warn('[AIService] Failed to fetch GitHub profile:', err.message);
+      return null;
+    }
+  }
+
+  // --- Full Resume Builder via Groq LLaMA 3.3 70B ---
+  async buildResumeWithGroq({ prompt = '', githubUrl = '', apiKey = null, targetRole = 'Full Stack AI Developer', candidateName = '' }) {
+    const key = apiKey || this.groqKey;
+    if (!key) {
+      throw new Error('Groq API Key is required. Please set GROQ_API_KEY in server/.env or enter your key in the Groq AI modal.');
+    }
+
+    let githubContext = null;
+    if (githubUrl) {
+      githubContext = await this.fetchGitHubContext(githubUrl);
+    }
+
+    const systemPrompt = `You are a world-class executive resume architect and ATS specialist.
+Construct a complete, recruiter-ready, high-scoring ATS resume in JSON format.
+Follow these rules strictly:
+1. Target JSON Schema:
+{
+  "type": "ATS-Friendly",
+  "title": "Candidate Name — Target Role",
+  "personal": {
+    "name": "FULL NAME IN UPPERCASE",
+    "title": "Target Role Title",
+    "email": "email@example.com",
+    "phone": "+91 ...",
+    "location": "City, State/Country",
+    "github": "github username or full url",
+    "portfolio": "https://...",
+    "summary": "2-3 sentence high-impact career objective highlighting core capabilities, background, and goals."
+  },
+  "education": [
+    {
+      "degree": "e.g. B.E. Information Science",
+      "institution": "College / University Name",
+      "university": "",
+      "location": "",
+      "start": "2023",
+      "end": "2027",
+      "grade": ""
+    }
+  ],
+  "projectsTitle": "RELEVANT PROJECTS — SPEECH, NLP & AI",
+  "projects": [
+    {
+      "name": "Project Name | Short Tagline",
+      "date": "2025 – 2026",
+      "subtitle": "Hackathon / Competition / Recognition",
+      "link": "https://github.com/...",
+      "description": "• Accomplished [X] measured by [Y] doing [Z]...\n• Built advanced feature with [tech]...\n• Deployed on [platform] • GitHub"
+    }
+  ],
+  "skillCategories": [
+    { "category": "Speech & Audio (or relevant category)", "skills": "Tool1, Tool2, Tool3..." },
+    { "category": "Languages", "skills": "Python, JavaScript, C, SQL, Bash..." },
+    { "category": "Backend / APIs", "skills": "FastAPI, Flask, Node.js..." },
+    { "category": "Frontend", "skills": "React, Streamlit, HTML/CSS..." },
+    { "category": "Tools & Infra", "skills": "Git, GitHub, Docker, VS Code..." }
+  ],
+  "skills": ["Python", "FastAPI", "React", "Docker", "Git"],
+  "experience": [
+    {
+      "role": "Role Title",
+      "company": "Company Name, Location",
+      "start": "2026",
+      "end": "Present",
+      "subtitle": "Short tagline or achievement",
+      "details": "• Action verb + responsibility + measurable outcome\n• ..."
+    }
+  ],
+  "achievementsTitle": "PUBLICATIONS & ACHIEVEMENTS",
+  "achievements": [
+    "Conference paper / Hackathon achievement 1...",
+    "Incubation / Award / Competition achievement 2..."
+  ]
+}
+
+2. Use Google's STAR formula ("Accomplished [X] measured by [Y] doing [Z]") for project and experience bullets.
+3. Categorize technical skills cleanly into 4-6 categories for the 2-column table.
+4. Output strictly valid JSON matching response_format json_object.`;
+
+    let userPrompt = `Generate a complete ATS resume for role: "${targetRole}".\n`;
+    if (candidateName) userPrompt += `Candidate Name: "${candidateName}".\n`;
+    if (prompt) userPrompt += `Candidate Profile & Background:\n${prompt}\n\n`;
+
+    if (githubContext) {
+      userPrompt += `GitHub Profile Telemetry for ${githubContext.username}:\n`;
+      userPrompt += `- Name: ${githubContext.name}\n- Bio: ${githubContext.bio}\n- Location: ${githubContext.location}\n- Website/Blog: ${githubContext.blog}\n`;
+      userPrompt += `- Repositories:\n`;
+      githubContext.repos.forEach(r => {
+        userPrompt += `  * ${r.name} (${r.language || 'Code'}, ${r.stars} stars): ${r.description} [${r.url}]\n`;
+      });
+    }
+
+    const aiResponse = await this.callGroq({
+      prompt: userPrompt,
+      systemPrompt,
+      apiKey: key,
+      model: 'llama-3.3-70b-versatile',
+      responseFormat: 'json'
+    });
+
+    if (!aiResponse) {
+      throw new Error('Groq did not return a response. Please check your API key and connection.');
+    }
+
+    const clean = aiResponse.replace(/```json/g, '').replace(/```/g, '').trim();
+    const parsed = JSON.parse(clean);
+    return parsed;
+  }
+
   // --- Bullet Enhancement ---
-  async enhanceBullet({ text, role = '', tech = '' }) {
+  async enhanceBullet({ text, role = '', tech = '', apiKey = null }) {
     if (!text || !text.trim()) {
       return {
         original: text,
@@ -95,27 +297,62 @@ export class AIService {
       };
     }
 
-    // Try Gemini if key is present
-    if (this.geminiKey) {
-      const prompt = `You are a world-class executive resume writer and ATS specialist.
+    const groqKey = apiKey || this.groqKey;
+    const prompt = `You are a world-class executive resume writer and ATS specialist.
 Enhance the following bullet point or experience description into 3 distinct, punchy, high-impact resume bullet points following the Google "Accomplished [X] as measured by [Y], by doing [Z]" STAR framework.
 Include strong action verbs, technical specifics, and quantifiable metrics/outcomes where appropriate.
 Role: ${role || 'Software Engineer'}
 Technologies: ${tech || 'Modern Web Stack'}
 Input text: "${text}"
 
-Output strictly as a valid JSON array of 3 string items, e.g. ["bullet 1", "bullet 2", "bullet 3"]. No extra markdown ticks if possible, or clean JSON.`;
+Output strictly as a valid JSON object with key "suggestions" containing an array of 3 strings:
+{
+  "suggestions": [
+    "Accomplished...",
+    "Engineered...",
+    "Optimized..."
+  ]
+}`;
 
+    // Try Groq first if key is present
+    if (groqKey) {
+      try {
+        const aiResponse = await this.callGroq({
+          prompt,
+          apiKey: groqKey,
+          model: 'llama-3.3-70b-versatile',
+          responseFormat: 'json'
+        });
+        if (aiResponse) {
+          const clean = aiResponse.replace(/```json/g, '').replace(/```/g, '').trim();
+          const parsed = JSON.parse(clean);
+          const list = parsed.suggestions || (Array.isArray(parsed) ? parsed : null);
+          if (Array.isArray(list) && list.length > 0) {
+            return {
+              original: text,
+              mode: 'Groq LPU (LLaMA 3.3 70B)',
+              suggestions: list
+            };
+          }
+        }
+      } catch (err) {
+        console.warn('[AIService] Groq enhance bullet fallback:', err.message);
+      }
+    }
+
+    // Try Gemini if key is present
+    if (this.geminiKey) {
       const aiResponse = await this.callGemini(prompt);
       if (aiResponse) {
         try {
           const clean = aiResponse.replace(/```json/g, '').replace(/```/g, '').trim();
           const parsed = JSON.parse(clean);
-          if (Array.isArray(parsed) && parsed.length > 0) {
+          const list = parsed.suggestions || (Array.isArray(parsed) ? parsed : null);
+          if (Array.isArray(list) && list.length > 0) {
             return {
               original: text,
               mode: 'Gemini AI',
-              suggestions: parsed
+              suggestions: list
             };
           }
         } catch {
@@ -141,31 +378,57 @@ Output strictly as a valid JSON array of 3 string items, e.g. ["bullet 1", "bull
     };
   }
 
-  // --- Summary Generation ---
-  async generateSummary({ role = 'Software Developer', skills = [], experienceYears = '2+', name = '' }) {
+  // --- Objective / Summary Generation ---
+  async generateSummary({ role = 'Software Developer', skills = [], experienceYears = '2+', name = '', apiKey = null }) {
     const skillsList = Array.isArray(skills) && skills.length > 0 ? skills.slice(0, 6).join(', ') : 'modern web technologies and cloud infrastructure';
+    const groqKey = apiKey || this.groqKey;
 
-    if (this.geminiKey) {
-      const prompt = `You are an elite career coach. Write 3 distinct, compelling, ATS-optimized professional resume summaries for a ${role} with skills in ${skillsList}.
-Style 1: Results & Metrics Driven (focus on business impact and scale)
-Style 2: Deep Technical & Architecture Focused (focus on clean code, systems design, and engineering excellence)
+    const prompt = `You are an elite career coach. Write 3 distinct, compelling, ATS-optimized career objectives for a ${role} with skills in ${skillsList}.
+Style 1: Results & Metrics Driven (focus on business impact, high scale, and measurable engineering outcomes)
+Style 2: Deep Technical & Architecture Focused (focus on clean code, systems design, APIs, and engineering excellence)
 Style 3: Growth & Agility Oriented (collaborative, fast-learning, modern problem solver, ideal for high-growth tech firms or fresher graduates).
 Candidate name: ${name || 'Professional'}.
 
-Output strictly as a valid JSON array of 3 objects with keys "title" and "summary":
-[
-  {"title": "Results & Metrics Driven", "summary": "..."},
-  {"title": "Technical & Systems Focus", "summary": "..."},
-  {"title": "Growth & Modern Agility", "summary": "..."}
-]`;
+Output strictly as a valid JSON object with key "options" containing an array of 3 objects with keys "title" and "summary":
+{
+  "options": [
+    {"title": "Results & Metrics Driven", "summary": "..."},
+    {"title": "Technical & Systems Focus", "summary": "..."},
+    {"title": "Growth & Modern Agility", "summary": "..."}
+  ]
+}`;
 
+    // Try Groq first if key is present
+    if (groqKey) {
+      try {
+        const aiResponse = await this.callGroq({
+          prompt,
+          apiKey: groqKey,
+          model: 'llama-3.3-70b-versatile',
+          responseFormat: 'json'
+        });
+        if (aiResponse) {
+          const clean = aiResponse.replace(/```json/g, '').replace(/```/g, '').trim();
+          const parsed = JSON.parse(clean);
+          const opts = parsed.options || (Array.isArray(parsed) ? parsed : null);
+          if (Array.isArray(opts) && opts.length > 0) {
+            return { mode: 'Groq LPU (LLaMA 3.3 70B)', options: opts };
+          }
+        }
+      } catch (err) {
+        console.warn('[AIService] Groq generate summary fallback:', err.message);
+      }
+    }
+
+    if (this.geminiKey) {
       const aiResponse = await this.callGemini(prompt);
       if (aiResponse) {
         try {
           const clean = aiResponse.replace(/```json/g, '').replace(/```/g, '').trim();
           const parsed = JSON.parse(clean);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            return { mode: 'Gemini AI', options: parsed };
+          const opts = parsed.options || (Array.isArray(parsed) ? parsed : null);
+          if (Array.isArray(opts) && opts.length > 0) {
+            return { mode: 'Gemini AI', options: opts };
           }
         } catch {
           // fall through to local

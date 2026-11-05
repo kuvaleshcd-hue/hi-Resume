@@ -481,6 +481,16 @@ export default function App() {
   const [showAiSummaryModal, setShowAiSummaryModal] = useState(false);
   const [showAiPolishModal, setShowAiPolishModal] = useState(false);
   const [showSkillsModal, setShowSkillsModal] = useState(false);
+  const [showGroqModal, setShowGroqModal] = useState(false);
+
+  // Groq AI Builder State
+  const [groqKey, setGroqKey] = useState(() => localStorage.getItem('sr-groq-key') || '');
+  const [groqGithubUrl, setGroqGithubUrl] = useState('https://github.com/kuvaleshcd-hue');
+  const [groqPrompt, setGroqPrompt] = useState('B.E. Information Science graduate at Ghousia College of Engineering. Hands-on experience in speech, NLP, and full-stack AI development. Built Sarvam VideoDubber for 16 Indian languages, VAANI Kannada voice assistant with LLaMA 3, Hanu Agri ML system, and Full Stack AI Developer intern at OmniIDE.');
+  const [groqTargetRole, setGroqTargetRole] = useState('Full Stack AI Developer');
+  const [groqCandidateName, setGroqCandidateName] = useState('KUVALESH C D');
+  const [groqLoading, setGroqLoading] = useState(false);
+  const [groqError, setGroqError] = useState('');
 
   // Data states
   const [cloudResumes, setCloudResumes] = useState([]);
@@ -746,6 +756,42 @@ export default function App() {
       }
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  // --- Build with Groq LLaMA 3.3 70B ---
+  const buildWithGroq = async (e) => {
+    if (e) e.preventDefault();
+    setGroqLoading(true);
+    setGroqError('');
+    try {
+      const res = await fetch('/api/ai/build-resume', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          githubUrl: groqGithubUrl,
+          prompt: groqPrompt,
+          apiKey: groqKey,
+          targetRole: groqTargetRole,
+          candidateName: groqCandidateName
+        })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || 'Groq failed to generate resume');
+      }
+      if (groqKey) {
+        localStorage.setItem('sr-groq-key', groqKey);
+      }
+      setD(clone(data.resume));
+      setShowGroqModal(false);
+      showToast('⚡ Resume successfully generated with Groq LLaMA 3.3!');
+      setPage('builder');
+      setStep(0);
+    } catch (err) {
+      setGroqError(err.message || 'Error communicating with Groq API');
+    } finally {
+      setGroqLoading(false);
     }
   };
 
@@ -1095,6 +1141,14 @@ export default function App() {
             <Sparkles size={14} /> Kuvalesh Format
           </button>
 
+          <button
+            className="btn-chip"
+            style={{ background: '#f5f3ff', borderColor: '#8b5cf6', color: '#6d28d9', fontWeight: 700 }}
+            onClick={() => setShowGroqModal(true)}
+          >
+            <Sparkles size={14} /> ⚡ Groq AI Builder
+          </button>
+
           <button className="btn-chip highlight" onClick={runAtsScan}>
             <BarChart3 size={14} /> ATS Scanner
           </button>
@@ -1106,12 +1160,24 @@ export default function App() {
       {/* Home View */}
       {page === 'home' && (
         <main className="hero">
-          <div className="pill"><Sparkles size={14} /> Powered by SmartResume AI & ATS Intelligence</div>
+          <div className="pill"><Sparkles size={14} /> Powered by Groq LPU (LLaMA 3.3) & ATS Intelligence</div>
           <h1>Make your experience<br /><em>stand out.</em></h1>
-          <p>Create a polished, recruiter-ready resume one simple step at a time. Backed by persistent storage, real-time ATS scoring, and AI assistance.</p>
-          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 25 }}>
+          <p>Create a polished, recruiter-ready resume one simple step at a time. Backed by persistent storage, real-time ATS scoring, and high-speed Groq AI assistance.</p>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 25, flexWrap: 'wrap' }}>
+            <button
+              className="primary big"
+              style={{
+                marginTop: 0,
+                background: 'linear-gradient(135deg, #7c3aed 0%, #2563eb 100%)',
+                borderColor: '#6d28d9',
+                boxShadow: '0 8px 24px rgba(124, 58, 237, 0.3)'
+              }}
+              onClick={() => setShowGroqModal(true)}
+            >
+              <Sparkles size={18} /> ⚡ Build with Groq AI (GitHub/Link)
+            </button>
             <button className="primary big" style={{ marginTop: 0 }} onClick={() => setPage('types')}>
-              Build my resume <ArrowRight size={18} />
+              Manual Builder <ArrowRight size={18} />
             </button>
             <button className="secondary big" style={{ marginTop: 0 }} onClick={openTemplates}>
               <FolderOpen size={16} /> Load Starter Template
@@ -1645,6 +1711,130 @@ export default function App() {
             <div className="modal-footer">
               <button className="secondary" onClick={() => setShowSkillsModal(false)}>Close</button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- MODAL 7: Groq AI Auto-Resume Builder (LLaMA 3.3 70B) --- */}
+      {showGroqModal && (
+        <div className="modal-backdrop" onClick={() => !groqLoading && setShowGroqModal(false)}>
+          <div className="modal-window" style={{ maxWidth: 660 }} onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>
+                <Sparkles size={18} style={{ color: '#7c3aed' }} /> Groq AI Auto-Resume Builder (LLaMA 3.3)
+              </h2>
+              <button className="modal-close" onClick={() => !groqLoading && setShowGroqModal(false)}>
+                <X size={18} />
+              </button>
+            </div>
+            <form onSubmit={buildWithGroq}>
+              <div className="modal-body">
+                <div style={{
+                  background: '#f5f3ff', border: '1px solid #ddd6fe', padding: '12px 14px',
+                  borderRadius: 8, fontSize: 11, color: '#5b21b6', lineHeight: 1.5, marginBottom: 16
+                }}>
+                  <b>⚡ Ultra-Fast LPU Agent:</b> Paste your GitHub URL or profile summary. Groq's <b>LLaMA 3.3 70B</b> model will analyze your repositories, technologies, and achievements, automatically compiling your complete ATS resume in seconds!
+                </div>
+
+                {groqError && (
+                  <div style={{
+                    background: '#fef2f2', border: '1px solid #fecaca', padding: '10px 14px',
+                    borderRadius: 8, fontSize: 11, color: '#991b1b', marginBottom: 14
+                  }}>
+                    <b>Error:</b> {groqError}
+                  </div>
+                )}
+
+                <div className="grid" style={{ marginBottom: 12 }}>
+                  <label className="field wide">
+                    <span>GitHub Profile / Repo Link (Auto-extracts repos, languages, stars)</span>
+                    <input
+                      value={groqGithubUrl}
+                      onChange={e => setGroqGithubUrl(e.target.value)}
+                      placeholder="e.g. https://github.com/kuvaleshcd-hue"
+                    />
+                  </label>
+                  <label className="field">
+                    <span>Candidate Name</span>
+                    <input
+                      value={groqCandidateName}
+                      onChange={e => setGroqCandidateName(e.target.value)}
+                      placeholder="e.g. KUVALESH C D"
+                    />
+                  </label>
+                  <label className="field">
+                    <span>Target Role</span>
+                    <input
+                      value={groqTargetRole}
+                      onChange={e => setGroqTargetRole(e.target.value)}
+                      placeholder="e.g. Full Stack AI Developer"
+                    />
+                  </label>
+                </div>
+
+                <label className="field" style={{ marginBottom: 14 }}>
+                  <span>Career Notes / Bio / Past Experience / Aspirations</span>
+                  <textarea
+                    rows="3"
+                    value={groqPrompt}
+                    onChange={e => setGroqPrompt(e.target.value)}
+                    placeholder="Describe your degree, core skills, key projects, and career aspirations..."
+                  />
+                </label>
+
+                <label className="field">
+                  <div className="field-header-row">
+                    <span>Groq API Key (Optional if configured on server)</span>
+                    <a
+                      href="https://console.groq.com/keys"
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{ fontSize: 10, color: '#7c3aed', fontWeight: 600, textDecoration: 'underline' }}
+                    >
+                      Get free Groq key ↗
+                    </a>
+                  </div>
+                  <input
+                    type="password"
+                    value={groqKey}
+                    onChange={e => setGroqKey(e.target.value)}
+                    placeholder="gsk_... (Stored locally in browser)"
+                  />
+                </label>
+              </div>
+
+              <div className="modal-footer">
+                <button
+                  type="submit"
+                  className="primary"
+                  disabled={groqLoading}
+                  style={{
+                    background: 'linear-gradient(135deg, #7c3aed 0%, #2563eb 100%)',
+                    borderColor: '#6d28d9',
+                    padding: '10px 20px',
+                    fontSize: 12
+                  }}
+                >
+                  {groqLoading ? (
+                    <>
+                      <RefreshCw className="spin" size={14} /> Synthesizing with Groq LLaMA 3.3...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles size={14} /> 🚀 Generate Full Resume
+                    </>
+                  )}
+                </button>
+                <button
+                  type="button"
+                  className="secondary"
+                  disabled={groqLoading}
+                  onClick={() => setShowGroqModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
