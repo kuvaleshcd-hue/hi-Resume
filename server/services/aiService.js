@@ -41,6 +41,17 @@ const POWER_VERBS = [
   'Consolidated', 'Accelerated', 'Constructed', 'Formulated', 'Implemented'
 ];
 
+function cleanJson(text) {
+  if (!text) return null;
+  let clean = text.replace(/```json/gi, '').replace(/```/g, '').trim();
+  const firstBrace = clean.indexOf('{');
+  const lastBrace = clean.lastIndexOf('}');
+  if (firstBrace !== -1 && lastBrace !== -1 && lastBrace >= firstBrace) {
+    clean = clean.slice(firstBrace, lastBrace + 1);
+  }
+  return JSON.parse(clean);
+}
+
 export class AIService {
   constructor() {
     this.groqKey = process.env.GROQ_API_KEY || null;
@@ -53,56 +64,64 @@ export class AIService {
   }
 
   getMode() {
-    if (this.groqKey) return 'Groq LPU (LLaMA 3.3 70B)';
+    if (this.groqKey) return 'Groq LPU (GPT-OSS 120B)';
     if (this.geminiKey) return 'Gemini API Connected';
     if (this.openaiKey) return 'OpenAI API Connected';
     return 'Smart Built-in NLP Engine';
   }
 
   // --- External API Call (Groq LPU) ---
-  async callGroq({ prompt, systemPrompt = '', responseFormat = 'json', apiKey = null, model = 'llama-3.3-70b-versatile' }) {
+  async callGroq({ prompt, systemPrompt = '', responseFormat = 'json', apiKey = null, model = 'openai/gpt-oss-120b' }) {
     const key = apiKey || this.groqKey;
     if (!key) return null;
 
-    try {
-      const messages = [];
-      if (systemPrompt) {
-        messages.push({ role: 'system', content: systemPrompt });
+    const candidateModels = [model, 'openai/gpt-oss-120b', 'openai/gpt-oss-20b', 'qwen/qwen3.8-27b'].filter((v, i, a) => a.indexOf(v) === i);
+
+    let lastError = null;
+    for (const m of candidateModels) {
+      try {
+        const messages = [];
+        if (systemPrompt) {
+          messages.push({ role: 'system', content: systemPrompt });
+        }
+        messages.push({ role: 'user', content: prompt });
+
+        const payload = {
+          model: m,
+          messages,
+          temperature: 0.3,
+          max_tokens: 3500
+        };
+
+        if (responseFormat === 'json') {
+          payload.response_format = { type: 'json_object' };
+        }
+
+        const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${key}`
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+          const errorText = await res.text();
+          console.warn(`[AIService] Groq model ${m} returned error ${res.status}: ${errorText}`);
+          lastError = new Error(`Groq API error (${res.status}): ${errorText}`);
+          continue; // Try next fallback model
+        }
+
+        const data = await res.json();
+        const content = data.choices?.[0]?.message?.content || null;
+        if (content) return content;
+      } catch (err) {
+        console.warn(`[AIService] Groq query attempt failed on ${m}:`, err.message);
+        lastError = err;
       }
-      messages.push({ role: 'user', content: prompt });
-
-      const payload = {
-        model: model || 'llama-3.3-70b-versatile',
-        messages,
-        temperature: 0.3,
-        max_tokens: 3500
-      };
-
-      if (responseFormat === 'json') {
-        payload.response_format = { type: 'json_object' };
-      }
-
-      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${key}`
-        },
-        body: JSON.stringify(payload)
-      });
-
-      if (!res.ok) {
-        const errorText = await res.text();
-        console.warn('[AIService] Groq API error:', res.status, errorText);
-        throw new Error(`Groq API error (${res.status}): ${errorText}`);
-      }
-
-      const data = await res.json();
-      return data.choices?.[0]?.message?.content || null;
-    } catch (err) {
-      console.warn('[AIService] Failed to query Groq:', err.message);
-      throw err;
     }
+    throw lastError || new Error('All Groq models failed');
   }
 
   // --- External API Call (Gemini) ---
@@ -271,7 +290,7 @@ Follow these rules strictly:
       prompt: userPrompt,
       systemPrompt,
       apiKey: key,
-      model: 'llama-3.3-70b-versatile',
+      model: 'openai/gpt-oss-120b',
       responseFormat: 'json'
     });
 
@@ -279,8 +298,7 @@ Follow these rules strictly:
       throw new Error('Groq did not return a response. Please check your API key and connection.');
     }
 
-    const clean = aiResponse.replace(/```json/g, '').replace(/```/g, '').trim();
-    const parsed = JSON.parse(clean);
+    const parsed = cleanJson(aiResponse);
     return parsed;
   }
 
@@ -320,17 +338,16 @@ Output strictly as a valid JSON object with key "suggestions" containing an arra
         const aiResponse = await this.callGroq({
           prompt,
           apiKey: groqKey,
-          model: 'llama-3.3-70b-versatile',
+          model: 'openai/gpt-oss-120b',
           responseFormat: 'json'
         });
         if (aiResponse) {
-          const clean = aiResponse.replace(/```json/g, '').replace(/```/g, '').trim();
-          const parsed = JSON.parse(clean);
-          const list = parsed.suggestions || (Array.isArray(parsed) ? parsed : null);
+          const parsed = cleanJson(aiResponse);
+          const list = parsed?.suggestions || (Array.isArray(parsed) ? parsed : null);
           if (Array.isArray(list) && list.length > 0) {
             return {
               original: text,
-              mode: 'Groq LPU (LLaMA 3.3 70B)',
+              mode: 'Groq LPU (GPT-OSS 120B)',
               suggestions: list
             };
           }
@@ -404,15 +421,14 @@ Output strictly as a valid JSON object with key "options" containing an array of
         const aiResponse = await this.callGroq({
           prompt,
           apiKey: groqKey,
-          model: 'llama-3.3-70b-versatile',
+          model: 'openai/gpt-oss-120b',
           responseFormat: 'json'
         });
         if (aiResponse) {
-          const clean = aiResponse.replace(/```json/g, '').replace(/```/g, '').trim();
-          const parsed = JSON.parse(clean);
-          const opts = parsed.options || (Array.isArray(parsed) ? parsed : null);
+          const parsed = cleanJson(aiResponse);
+          const opts = parsed?.options || (Array.isArray(parsed) ? parsed : null);
           if (Array.isArray(opts) && opts.length > 0) {
-            return { mode: 'Groq LPU (LLaMA 3.3 70B)', options: opts };
+            return { mode: 'Groq LPU (GPT-OSS 120B)', options: opts };
           }
         }
       } catch (err) {

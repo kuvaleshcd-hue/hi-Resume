@@ -759,7 +759,7 @@ export default function App() {
     }
   };
 
-  // --- Build with Groq LLaMA 3.3 70B ---
+  // --- Build with Groq LPU AI ---
   const buildWithGroq = async (e) => {
     if (e) e.preventDefault();
     setGroqLoading(true);
@@ -785,7 +785,7 @@ export default function App() {
       }
       setD(clone(data.resume));
       setShowGroqModal(false);
-      showToast('⚡ Resume successfully generated with Groq LLaMA 3.3!');
+      showToast('⚡ Resume successfully generated with Groq AI!');
       setPage('builder');
       setStep(0);
     } catch (err) {
@@ -1160,7 +1160,7 @@ export default function App() {
       {/* Home View */}
       {page === 'home' && (
         <main className="hero">
-          <div className="pill"><Sparkles size={14} /> Powered by Groq LPU (LLaMA 3.3) & ATS Intelligence</div>
+          <div className="pill"><Sparkles size={14} /> Powered by Groq LPU AI & ATS Intelligence</div>
           <h1>Make your experience<br /><em>stand out.</em></h1>
           <p>Create a polished, recruiter-ready resume one simple step at a time. Backed by persistent storage, real-time ATS scoring, and high-speed Groq AI assistance.</p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 25, flexWrap: 'wrap' }}>
@@ -1721,7 +1721,7 @@ export default function App() {
           <div className="modal-window" style={{ maxWidth: 660 }} onClick={e => e.stopPropagation()}>
             <div className="modal-header">
               <h2>
-                <Sparkles size={18} style={{ color: '#7c3aed' }} /> Groq AI Auto-Resume Builder (LLaMA 3.3)
+                <Sparkles size={18} style={{ color: '#7c3aed' }} /> Groq AI Auto-Resume Builder (LPU High-Speed)
               </h2>
               <button className="modal-close" onClick={() => !groqLoading && setShowGroqModal(false)}>
                 <X size={18} />
@@ -1733,7 +1733,7 @@ export default function App() {
                   background: '#f5f3ff', border: '1px solid #ddd6fe', padding: '12px 14px',
                   borderRadius: 8, fontSize: 11, color: '#5b21b6', lineHeight: 1.5, marginBottom: 16
                 }}>
-                  <b>⚡ Ultra-Fast LPU Agent:</b> Paste your GitHub URL or profile summary. Groq's <b>LLaMA 3.3 70B</b> model will analyze your repositories, technologies, and achievements, automatically compiling your complete ATS resume in seconds!
+                  <b>⚡ Ultra-Fast LPU Agent:</b> Paste your GitHub URL or profile summary. Groq's high-speed AI engine will analyze your repositories, technologies, and achievements, automatically compiling your complete ATS resume in seconds!
                 </div>
 
                 {groqError && (
@@ -1817,7 +1817,7 @@ export default function App() {
                 >
                   {groqLoading ? (
                     <>
-                      <RefreshCw className="spin" size={14} /> Synthesizing with Groq LLaMA 3.3...
+                      <RefreshCw className="spin" size={14} /> Synthesizing with Groq LPU AI...
                     </>
                   ) : (
                     <>

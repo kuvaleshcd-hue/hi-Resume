@@ -11,7 +11,7 @@ router.get('/status', (_req, res) => {
   });
 });
 
-// POST /api/ai/build-resume (Groq LLaMA 3.3 70B Auto-Resume Builder)
+// POST /api/ai/build-resume (Groq LPU Auto-Resume Builder)
 router.post('/build-resume', async (req, res, next) => {
   try {
     const { prompt, githubUrl, apiKey, targetRole, candidateName } = req.body || {};
@@ -24,7 +24,7 @@ router.post('/build-resume', async (req, res, next) => {
     });
     res.json({
       ok: true,
-      mode: 'Groq LPU (LLaMA 3.3 70B)',
+      mode: aiService.getMode(),
       resume
     });
   } catch (err) {
