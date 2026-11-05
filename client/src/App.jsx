@@ -5,9 +5,7 @@ import {
 } from 'lucide-react';
 
 const types = [
-  'ATS-Friendly', 'Fresher', 'Developer', 'Cybersecurity',
-  'Chronological', 'Functional', 'Combination / Hybrid', 'Targeted',
-  'Academic CV', 'Creative', 'Internship', 'Experienced'
+  'ATS-Friendly'
 ];
 
 const blank = {
@@ -703,21 +701,17 @@ export default function App() {
             <h1>What kind of resume<br />are you creating?</h1>
             <p>Choose a target category. You can customize every section in the builder.</p>
           </div>
-          <div className="typegrid">
+          <div className="typegrid" style={types.length === 1 ? { display: 'flex', justifyContent: 'center' } : {}}>
             {types.map(t => (
               <button
                 key={t}
                 className={d.type === t ? 'type selected' : 'type'}
+                style={types.length === 1 ? { maxWidth: 360, width: '100%' } : {}}
                 onClick={() => upd(['type'], t)}
               >
                 <FileText />
                 <b>{t}</b>
-                <small>
-                  {t === 'ATS-Friendly' ? 'Simple and recruiter-readable'
-                    : t === 'Fresher' ? 'Education, skills and academic projects'
-                    : t === 'Targeted' ? 'Tailor content for one specific job'
-                    : 'A format suited to your career trajectory'}
-                </small>
+                <small>Simple and recruiter-readable</small>
                 {d.type === t && <Check className="tick" />}
               </button>
             ))}
