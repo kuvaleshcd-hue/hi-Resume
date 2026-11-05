@@ -65,12 +65,12 @@ export class ATSService {
     let sectionScore = 0;
     if (p.summary && p.summary.trim().split(/\s+/).length >= 20) {
       sectionScore += 5;
-      strengths.push('Comprehensive professional summary present.');
+      strengths.push('Comprehensive career objective present.');
     } else if (p.summary && p.summary.trim().length > 0) {
       sectionScore += 2;
-      feedback.push({ section: 'Summary', text: 'Expand your professional summary to 2-3 sentences (30-60 words).', impact: 'medium' });
+      feedback.push({ section: 'Objective', text: 'Expand your career objective to 2-3 sentences (30-60 words).', impact: 'medium' });
     } else {
-      feedback.push({ section: 'Summary', text: 'Missing professional summary statement.', impact: 'high' });
+      feedback.push({ section: 'Objective', text: 'Missing career objective statement.', impact: 'high' });
     }
 
     if (edu.some(e => e.degree && e.institution)) {

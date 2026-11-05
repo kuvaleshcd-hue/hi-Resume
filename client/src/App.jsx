@@ -51,7 +51,13 @@ function Resume({ d }) {
         <b>{p.title || 'Professional Title'}</b>
         <p>{[p.email, p.phone, p.location, p.linkedin, p.github, p.portfolio].filter(Boolean).join(' • ')}</p>
       </header>
-      {p.summary && <section><h2>SUMMARY</h2><p>{p.summary}</p></section>}
+      {p.summary && (
+        <section>
+          <h2 style={{ borderBottom: 'none', paddingBottom: 0, marginBottom: 2 }}>OBJECTIVE</h2>
+          <hr className="paper-hr" />
+          <p>{p.summary}</p>
+        </section>
+      )}
       {d.education?.some(x => x.degree || x.institution) && (
         <section>
           <h2>EDUCATION</h2>
@@ -469,11 +475,11 @@ export default function App() {
         {field('Portfolio', ['personal', 'portfolio'], 'https://...')}
         <div className="wide">
           {area(
-            'Professional summary',
+            'OBJECTIVE',
             ['personal', 'summary'],
-            'Short summary of your background, core strengths, and goals',
+            'Clear career objective highlighting your background, aspirations, and value to employers',
             <button className="ai-trigger" type="button" onClick={triggerAiSummary}>
-              <Sparkles size={12} /> AI Summary
+              <Sparkles size={12} /> AI Objective
             </button>
           )}
         </div>
@@ -1079,15 +1085,15 @@ export default function App() {
         <div className="modal-backdrop" onClick={() => setShowAiSummaryModal(false)}>
           <div className="modal-window" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
-              <h2><Sparkles size={18} /> AI Professional Summary Generator</h2>
+              <h2><Sparkles size={18} /> AI Career Objective Generator</h2>
               <button className="modal-close" onClick={() => setShowAiSummaryModal(false)}><X size={18} /></button>
             </div>
             <div className="modal-body">
               <p style={{ margin: 0, fontSize: 12, color: '#627267' }}>
-                Select a crafted summary tailored for your role and skillset:
+                Select a crafted career objective tailored for your role and skillset:
               </p>
               {summaryLoading ? (
-                <div style={{ padding: 30, textAlign: 'center', color: '#7e22ce' }}>Generating tailored summaries...</div>
+                <div style={{ padding: 30, textAlign: 'center', color: '#7e22ce' }}>Generating tailored career objectives...</div>
               ) : (
                 <div style={{ display: 'grid', gap: 12 }}>
                   {summaryOptions.map((opt, i) => (
@@ -1101,10 +1107,10 @@ export default function App() {
                         onClick={() => {
                           upd(['personal', 'summary'], opt.summary);
                           setShowAiSummaryModal(false);
-                          showToast('✓ Summary applied to resume');
+                          showToast('✓ Career objective applied to resume');
                         }}
                       >
-                        Use this summary
+                        Use this objective
                       </button>
                     </div>
                   ))}

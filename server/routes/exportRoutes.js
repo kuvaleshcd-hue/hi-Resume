@@ -13,10 +13,10 @@ function formatPlainText(d) {
   if (contact.length > 0) lines.push(contact.join(' | '));
   lines.push('------------------------------------------------------------');
 
-  // Summary
+  // Objective
   if (p.summary) {
-    lines.push('\nPROFESSIONAL SUMMARY');
-    lines.push('====================');
+    lines.push('\nOBJECTIVE');
+    lines.push('------------------------------------------------------------');
     lines.push(p.summary.trim());
   }
 
